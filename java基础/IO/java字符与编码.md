@@ -74,13 +74,12 @@ Reader 类是 Java 的 I/O 中读字符的父类，而 InputStream 类是读字�
 
 ##### 清单 1.I/O 涉及的编码示例
 
-```
+```java
 String file = "c:/stream.txt";
 String charset = "UTF-8";
 // 写字符换转成字节流
 FileOutputStream outputStream = new FileOutputStream(file); 
-OutputStreamWriter writer = new OutputStreamWriter(
-outputStream, charset);
+OutputStreamWriter writer = new OutputStreamWriter(outputStream, charset);
 try {
    writer.write("这是要保存的中文字符");
 } finally {
@@ -88,8 +87,7 @@ try {
 }
 // 读取字节转换成字符
 FileInputStream inputStream = new FileInputStream(file);
-InputStreamReader reader = new InputStreamReader(
-inputStream, charset);
+InputStreamReader reader = new InputStreamReader(inputStream, charset);
 StringBuffer buffer = new StringBuffer();
 char[] buf = new char[64];
 int count = 0;
@@ -108,7 +106,7 @@ try {
 
 在 Java 开发中除了 I/O 涉及到编码外，最常用的应该就是在内存中进行字符到字节的数据类型的转换，Java 中用 String 表示字符串，所以 String 类就提供转换到字节的方法，也支持将字节转换为字符串的构造函数。如下代码示例：
 
-```
+```java
 String s = "这是一段中文字符串";
 byte[] b = s.getBytes("UTF-8");
 String n = new String(b,"UTF-8");
@@ -118,7 +116,7 @@ String n = new String(b,"UTF-8");
 
 另外一个是已经被被废弃的 ByteToCharConverter 和 CharToByteConverter 类，它们分别提供了 convertAll 方法可以实现 byte[] 和 char[] 的互转。如下代码所示：
 
-```
+```java
 ByteToCharConverter charConverter = ByteToCharConverter.getConverter("UTF-8"); 
 char c[] = charConverter.convertAll(byteArray);
 CharToByteConverter byteConverter = CharToByteConverter.getConverter("UTF-8"); 
@@ -129,7 +127,7 @@ byte[] b = byteConverter.convertAll(c);
 
 这两个类已经被 Charset 类取代，Charset 提供 encode 与 decode 分别对应 char[] 到 byte[] 的编码和 byte[] 到 char[] 的解码。如下代码所示：
 
-```
+```java
 Charset charset = Charset.forName("UTF-8");
 ByteBuffer byteBuffer = charset.encode(string);
 CharBuffer charBuffer = charset.decode(byteBuffer);
@@ -141,7 +139,7 @@ CharBuffer charBuffer = charset.decode(byteBuffer);
 
 Java 中还有一个 ByteBuffer 类，它提供一种 char 和 byte 之间的软转换，它们之间转换不需要编码与解码，只是把一个 16bit 的 char 格式，拆分成为 2 个 8bit 的 byte 表示，它们的实际值并没有被修改，仅仅是数据的类型做了转换。如下代码所以：
 
-```
+```java
 ByteBuffer heapByteBuffer = ByteBuffer.allocate(1024); 
 ByteBuffer byteBuffer = heapByteBuffer.putChar(c);
 ```
@@ -156,7 +154,7 @@ ByteBuffer byteBuffer = heapByteBuffer.putChar(c);
 
 ##### 清单 2.String 编码
 
-```
+```java
 public static void encode() {
        String name = "I am 君山";
        toHex(name.toCharArray());
@@ -219,7 +217,7 @@ GB2312 对应的 Charset 是 sun.nio.cs.ext. EUC_CN 而对应的 CharsetDecoder 
 
 如果查到的码位值大于 oxff 则是双字节，否则是单字节。双字节高 8 位作为第一个字节，低 8 位作为第二个字节，如下代码所示：
 
-```
+```java
 if (bb > 0xff) {    // DoubleByte
            if (dl - dp < 2)
                return CoderResult.OVERFLOW;
@@ -250,7 +248,7 @@ if (bb > 0xff) {    // DoubleByte
 
 ##### ![Figure xxx. Requires a heading](assets/image017.gif)
 
-用 UTF-16 编码将 char 数组放大了一倍，单字节范围内的字符，在高位补 0 变成两个字节，中文字符也变成两个字节。从 UTF-16 编码规则来看，仅仅将字符的高位和地位进行拆分变成两个字节。特点是编码效率非常高，规则很简单，由于不同处理器对 2 字节处理方式不同，Big-endian（高位字节在前，低位字节在后）或 Little-endian（低位字节在前，高位字节在后）编码，所以在对一串字符串进行编码是需要指明到底是 Big-endian 还是 Little-endian，所以前面有两个字节用来保存 BYTE_ORDER_MARK 值，UTF-16 是用定长 16 位（2 字节）来表示的 UCS-2 或 Unicode 转换格式，通过代理对来访问 BMP 之外的字符编码。
+用 UTF-16 编码将 char 数组放大了一倍，单字节范围内的字符，在高位补 0 变成两个字节，中文字符也变成两个字节。从 UTF-16 编码规则来看，仅仅将字符的高位和低位进行拆分变成两个字节。特点是编码效率非常高，规则很简单，由于不同处理器对 2 字节处理方式不同，Big-endian（高位字节在前，低位字节在后）或 Little-endian（低位字节在前，高位字节在后）编码，所以在对一串字符串进行编码是需要指明到底是 Big-endian 还是 Little-endian，所以前面有两个字节用来保存 BYTE_ORDER_MARK 值，UTF-16 是用定长 16 位（2 字节）来表示的 UCS-2 或 Unicode 转换格式，通过代理对来访问 BMP 之外的字符编码。
 
 ### 按照 UTF-8 编码
 
@@ -262,9 +260,8 @@ UTF-16 虽然编码效率很高，但是对单字节范围内字符也放大了�
 
 ##### 清单 3.UTF-8 编码代码片段
 
-```
-private CoderResult encodeArrayLoop(CharBuffer src,
-ByteBuffer dst){
+```java
+private CoderResult encodeArrayLoop(CharBuffer src,ByteBuffer dst){
            char[] sa = src.array();
            int sp = src.arrayOffset() + src.position();
            int sl = src.arrayOffset() + src.limit();
@@ -357,8 +354,11 @@ UTF-8 编码与 GBK 和 GB2312 不同，不用查码表，所以在编码效率�
 
 Port 对应在 Tomcat 的 <Connector port="8080"/> 中配置，而 Context Path 在 <Context path="/examples"/> 中配置，Servlet Path 在 Web 应用的 web.xml 中的
 
-```
-`<``servlet-mapping``> ``       ``<``servlet-name``>junshanExample</``servlet-name``> ``       ``<``url-pattern``>/servlets/servlet/*</``url-pattern``> ``</``servlet-mapping``>`
+```xml
+<servlet-mapping>      
+	<servlet-name>junshanExample</servlet-name>     
+    <url-pattern>/servlets/servlet/*</url-pattern>
+</servlet-mapping>
 ```
 
 <url-pattern> 中配置，PathInfo 是我们请求的具体的 Servlet，QueryString 是要传递的参数，注意这里是在浏览器里直接输入 URL 所以是通过 Get 方法请求的，如果是 POST 方法请求的话，QueryString 将通过表单方式提交到服务器端，这个将在后面再介绍。
@@ -377,9 +377,8 @@ Port 对应在 Tomcat 的 <Connector port="8080"/> 中配置，而 Context Path 
 
 解析请求的 URL 是在 org.apache.coyote.HTTP11.InternalInputBuffer 的 parseRequestLine 方法中，这个方法把传过来的 URL 的 byte[] 设置到 org.apache.coyote.Request 的相应的属性中。这里的 URL 仍然是 byte 格式，转成 char 是在 org.apache.catalina.connector.CoyoteAdapter 的 convertURI 方法中完成的：
 
-```
-protected void convertURI(MessageBytes uri, Request request)
-throws Exception {
+```java
+protected void convertURI(MessageBytes uri, Request request)throws Exception {
        ByteChunk bc = uri.getByteChunk();
        int length = bc.getLength();
        CharChunk cc = uri.getCharChunk();
@@ -395,10 +394,8 @@ throws Exception {
            } catch (IOException e) {...}
            if (conv != null) {
                try {
-                   conv.convert(bc, cc, cc.getBuffer().length - 
-cc.getEnd());
-                   uri.setChars(cc.getBuffer(), cc.getStart(),
-cc.getLength());
+                   conv.convert(bc, cc, cc.getBuffer().length - cc.getEnd());
+                   uri.setChars(cc.getBuffer(), cc.getStart(),cc.getLength());
                    return;
                } catch (IOException e) {...}
            }
@@ -416,9 +413,9 @@ cc.getLength());
 
  
 
-从上面的代码中可以知道对 URL 的 URI 部分进行解码的字符集是在 connector 的 <Connector URIEncoding=”UTF-8”/> 中定义的，如果没有定义，那么将以默认编码 ISO-8859-1 解析。所以如果有中文 URL 时最好把 URIEncoding 设置成 UTF-8 编码。
+从上面的代码中可以知道对 URL 的 URI 部分进行解码的字符集是在 connector 的 <Connector URIEncoding="UTF-8"/> 中定义的，如果没有定义，那么将以默认编码 ISO-8859-1 解析。所以如果有中文 URL 时最好把 URIEncoding 设置成 UTF-8 编码。
 
-QueryString 又如何解析？ GET 方式 HTTP 请求的 QueryString 与 POST 方式 HTTP 请求的表单参数都是作为 Parameters 保存，都是通过 request.getParameter 获取参数值。对它们的解码是在 request.getParameter 方法第一次被调用时进行的。request.getParameter 方法被调用时将会调用 org.apache.catalina.connector.Request 的 parseParameters 方法。这个方法将会对 GET 和 POST 方式传递的参数进行解码，但是它们的解码字符集有可能不一样。POST 表单的解码将在后面介绍，QueryString 的解码字符集是在哪定义的呢？它本身是通过 HTTP 的 Header 传到服务端的，并且也在 URL 中，是否和 URI 的解码字符集一样呢？从前面浏览器对 PathInfo 和 QueryString 的编码采取不同的编码格式不同可以猜测到解码字符集肯定也不会是一致的。的确是这样 QueryString 的解码字符集要么是 Header 中 ContentType 中定义的 Charset 要么就是默认的 ISO-8859-1，要使用 ContentType 中定义的编码就要设置 connector 的 <Connector URIEncoding=”UTF-8” useBodyEncodingForURI=”true”/> 中的 useBodyEncodingForURI 设置为 true。这个配置项的名字有点让人产生混淆，它并不是对整个 URI 都采用 BodyEncoding 进行解码而仅仅是对 QueryString 使用 BodyEncoding 解码，这一点还要特别注意。
+QueryString 又如何解析？ GET 方式 HTTP 请求的 QueryString 与 POST 方式 HTTP 请求的表单参数都是作为 Parameters 保存，都是通过 request.getParameter 获取参数值。对它们的解码是在 request.getParameter 方法第一次被调用时进行的。request.getParameter 方法被调用时将会调用 org.apache.catalina.connector.Request 的 parseParameters 方法。这个方法将会对 GET 和 POST 方式传递的参数进行解码，但是它们的解码字符集有可能不一样。POST 表单的解码将在后面介绍，QueryString 的解码字符集是在哪定义的呢？它本身是通过 HTTP 的 Header 传到服务端的，并且也在 URL 中，是否和 URI 的解码字符集一样呢？从前面浏览器对 PathInfo 和 QueryString 的编码采取不同的编码格式不同可以猜测到解码字符集肯定也不会是一致的。的确是这样 QueryString 的解码字符集要么是 Header 中 ContentType 中定义的 Charset 要么就是默认的 ISO-8859-1，要使用 ContentType 中定义的编码就要设置 connector 的 <Connector URIEncoding="UTF-8" useBodyEncodingForURI="true"/> 中的 useBodyEncodingForURI 设置为 true。这个配置项的名字有点让人产生混淆，它并不是对整个 URI 都采用 BodyEncoding 进行解码而仅仅是对 QueryString 使用 BodyEncoding 解码，这一点还要特别注意。
 
 从上面的 URL 编码和解码过程来看，比较复杂，而且编码和解码并不是我们在应用程序中能完全控制的，所以在我们的应用程序中应该尽量避免在 URL 中使用非 ASCII 字符，不然很可能会碰到乱码问题，当然在我们的服务器端最好设置 <Connector/> 中的 URIEncoding 和 useBodyEncodingForURI 两个参数。
 
