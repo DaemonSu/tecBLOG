@@ -18,7 +18,11 @@ java 框架
 
 高可用
 
+git add .
 
+git commit -m ""
+
+git push origin master
 
 
 
