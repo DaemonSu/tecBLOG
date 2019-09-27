@@ -18,11 +18,8 @@ java 框架
 
 高可用
 
-git add .
-
-git commit -m ""
-
-git push origin master
 
 
+如果您觉得写得还阔以，您可以赏作者一杯咖啡：
 
+![1569400826971](assets/1569400826971.png)
