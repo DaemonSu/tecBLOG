@@ -19,11 +19,8 @@ IO 类设计出来，肯定是为了解决 IO 相关的操作的，想一想哪�
 - 9、~~字符串（String）~~**Java8中已废弃**：~~StringBufferInputStream、StringBufferOutputStream、StringReader、StringWriter~~ 
 
 数据源节点也可以再进行二次处理，使数据更加容易使用，所以还可以划分成节点流和处理流，这里涉及到设计模式，后面会有专门的文章说。
- 
 
-
-
-![img](https:////upload-images.jianshu.io/upload_images/5763525-fea0e55ed4343b67.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/626)
+![img](assets/5763525-fea0e55ed4343b67.jpg)
 
 按操作对象划分.jpg
 
@@ -42,7 +39,7 @@ IO 类设计出来，肯定是为了解决 IO 相关的操作的，想一想哪�
 
 字节流和字符流的划分可以看下面这张图。
 
-![img](https:////upload-images.jianshu.io/upload_images/5763525-b9823af16e7843da.png?imageMogr2/auto-orient/strip|imageView2/2/w/753)
+![img](assets/5763525-b9823af16e7843da.png)
 
 按字节和字符划分.png
 
