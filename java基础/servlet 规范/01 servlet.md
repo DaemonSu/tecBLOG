@@ -1,4 +1,50 @@
-# Servlet简介
+# Servlet
+
+
+
+# 复习知识：
+
+
+
+http://localhost:8080/web05/hello?username=zhangsan
+
+这里的http 是请求的协议，常见的有http，https，ftp等很多种
+
+localhost 是服务器的地址，可以使域名，可以使IP地址
+
+8080是服务器开放的端口
+
+web05/hello 是URI 其中web05 是项目名称，hello是对应的servlet路径
+
+user=zhangsan 是请求的参数，其中，user是参数名，zhangsan是参数值
+
+
+
+# 目标
+
+建立请求路径和java中的某个类的某个方法的绑定。只要输入这个路径，就会执行对应的java方法。
+
+
+
+做法：
+
+1：创建servet类并编写对应的service方法
+
+2：建立路径和这个类的关系==>
+
+```xml
+  <servlet>
+  	<servlet-name>hello</servlet-name>
+  	<servlet-class>com.jlai.web05.Hello</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+  	<servlet-name>hello</servlet-name>
+  	<url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+```
+
+
 
 ## Servlet 是什么？
 
