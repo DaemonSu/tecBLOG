@@ -4,7 +4,7 @@
 
 ​	remote DIctionary Server(Redis) 是一个由 Salvatore Sanfilippo 写的 key-value 存储系统，是跨平台的非关系型数据库。
 
-Redis 是一个开源的使用 ANSI C 语言编写、遵守 BS   D 协议、支持网络、可基于内存、分布式、可选持久性的键值对(Key-Value)存储数据库，并提供多种语言的 API。
+Redis 是一个开源的使用 ANSI C 语言编写、遵守 BSD 协议、支持网络、可基于内存、分布式、可选持久性的键值对(Key-Value)存储数据库，并提供多种语言的 API。
 
 Redis 通常被称为数据结构服务器，因为值（value）可以是字符串(String)、哈希(Hash)、列表(list)、集合(sets)和有序集合(sorted sets)等类型。
 
@@ -144,14 +144,14 @@ Redis 中每个 hash 可以存储 232 - 1 键值对（40多亿）。缓存一些
 新增或更新一个配置项
 
 ```c
-Copy127.0.0.1:6379> HSET 10001 AppName myblog
+127.0.0.1:6379> HSET 10001 AppName myblog
 (integer) 1
 ```
 
 获取一个配置项
 
 ```c
-Copy127.0.0.1:6379> HGET 10001 AppName 
+127.0.0.1:6379> HGET 10001 AppName 
 "myblog"
 ```
 
@@ -332,8 +332,6 @@ redis 127.0.0.1:6379> LRANGE runoobkey 0 10
 
 通过上文，我们可以知道集合的主要几个特性，无序、不可重复、支持并交差等操作。因此集合类型比较适合用来数据去重和保障数据的唯一性，还可以用来统计多个集合的交集、错集和并集等，当我们存储的数据是无序并且需要去重的情况下，比较适合使用集合类型进行存储。
 
-
-
 #### 实例
 
 ```
@@ -435,6 +433,8 @@ Lettuce是一种可伸缩，线程安全，完全非阻塞的Redis客户端，�
 
 ### 加入redis依赖和相关配置
 
+1：增加项目依赖
+
 ```xml
 <!--redis依赖配置-->
 <dependency>
@@ -503,33 +503,6 @@ public class RedisConfig extends CachingConfigurerSupport
         return template;
     }
 
-    @Bean
-    public DefaultRedisScript<Long> limitScript()
-    {
-        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
-        redisScript.setScriptText(limitScriptText());
-        redisScript.setResultType(Long.class);
-        return redisScript;
-    }
-
-    /**
-     * 限流脚本
-     */
-    private String limitScriptText()
-    {
-        return "local key = KEYS[1]\n" +
-                "local count = tonumber(ARGV[1])\n" +
-                "local time = tonumber(ARGV[2])\n" +
-                "local current = redis.call('get', key);\n" +
-                "if current and tonumber(current) > count then\n" +
-                "    return tonumber(current);\n" +
-                "end\n" +
-                "current = redis.call('incr', key)\n" +
-                "if tonumber(current) == 1 then\n" +
-                "    redis.call('expire', key, time)\n" +
-                "end\n" +
-                "return tonumber(current);";
-    }
 }
 ```
 
@@ -680,4 +653,12 @@ public static List<SysDictData> getDictCache(String key)
 
 
 
-问题思考？？什么样的数据适合放到缓存里？？？
+## 问题思考？？什么样的数据适合放到缓存里？？？
+
+1：微博浏览量（实时性不敏感，数据丢失不敏感）
+
+2：字典类的数据（非常稳定，极少发生变化，并且经常使用）
+
+3：验证码（使用的时间非常短，2分钟就失效）
+
+4：用户的session信息可以放到redis（主要是做集群来用的）
