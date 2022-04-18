@@ -14,25 +14,27 @@ JDK Logging把日志分为如下七个级别，等级依次降低。
 
 如果将级别设置为INFO，则INFO后面的不会输出。info前面的全部输出。通过控制级别达到控制输出的目的。
 
-    import java.util.logging.Level;
-    import java.util.logging.Logger;
-     
-    public class LogJDKTest {
-           private static Logger log = Logger.getLogger(LogJDKTest.class.toString());
-     
-           public static void main(String[] args) {
-                  // all→finest→finer→fine→config→info→warning→server→off
-                  // 级别依次升高，后面的日志级别会屏蔽之前的级别
-                  log.setLevel(Level.INFO);
-                  log.finest("finest");
-                  log.finer("finer");
-                  log.fine("fine");
-                  log.config("config");
-                  log.info("info");
-                  log.warning("warning");
-                  log.severe("server");
-           }
-    }
+```java
+import java.util.logging.Level;
+import java.util.logging.Logger;
+ 
+public class LogJDKTest {
+       private static Logger log = Logger.getLogger(LogJDKTest.class.toString());
+ 
+       public static void main(String[] args) {
+              // all→finest→finer→fine→config→info→warning→server→off
+              // 级别依次升高，后面的日志级别会屏蔽之前的级别
+              log.setLevel(Level.INFO);
+              log.finest("finest");
+              log.finer("finer");
+              log.fine("fine");
+              log.config("config");
+              log.info("info");
+              log.warning("warning");
+              log.severe("server");
+       }
+}
+```
 
  控制台输出：
 
@@ -49,34 +51,36 @@ JDK Logging把日志分为如下七个级别，等级依次降低。
 
 注意：为log设置级别与为每个handler设置级别的意义是不同的。
 
-    import java.util.logging.ConsoleHandler;
-    import java.util.logging.Handler;
-    import java.util.logging.Level;
-    import java.util.logging.Logger;
-     
-    public class LogJDKTest {
-        public static Logger log = Logger.getLogger(LogJDKTest.class.toString());
-        static {
-            Handler console = new ConsoleHandler();
-            console.setLevel(Level.SEVERE);
-            log.addHandler(console);
-            Handler console2 = new ConsoleHandler();
-            console2.setLevel(Level.INFO);
-            log.addHandler(console2);
-        }
-        public static void main(String[] args) {
-            // all→finest→finer→fine→config→info→warning→server→off
-            // 级别依次升高，后面的日志级别会屏蔽之前的级别
-            log.setLevel(Level.INFO);
-            log.finest("finest");
-            log.finer("finer");
-            log.fine("fine");
-            log.config("config");
-            log.info("info");
-            log.warning("warning");
-            log.severe("server");
-        }
+```java
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+ 
+public class LogJDKTest {
+    public static Logger log = Logger.getLogger(LogJDKTest.class.toString());
+    static {
+        Handler console = new ConsoleHandler();
+        console.setLevel(Level.SEVERE);
+        log.addHandler(console);
+        Handler console2 = new ConsoleHandler();
+        console2.setLevel(Level.INFO);
+        log.addHandler(console2);
     }
+    public static void main(String[] args) {
+        // all→finest→finer→fine→config→info→warning→server→off
+        // 级别依次升高，后面的日志级别会屏蔽之前的级别
+        log.setLevel(Level.INFO);
+        log.finest("finest");
+        log.finer("finer");
+        log.fine("fine");
+        log.config("config");
+        log.info("info");
+        log.warning("warning");
+        log.severe("server");
+    }
+}
+```
 
 控制台输出：
 
@@ -93,7 +97,7 @@ all，则所有的信息都会被输出，如果设为off，则所有的信息�
 
 ## 二、log4j1
 
-Apache的一个开放源代码项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；用户也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，用户能够更加细致地控制日志的生成过程。这些可以通过一个 配置文件来灵活地进行配置，而不需要修改程序代码。
+Apache的一个开放源代码项目，通过使用Log for java，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务器、NT的事件记录器、UNIX Syslog守护进程等；用户也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，用户能够更加细致地控制日志的生成过程。这些可以通过一个 配置文件来灵活地进行配置，而不需要修改程序代码。
 
 导入maven
 
@@ -194,7 +198,7 @@ log4j.rootLogger =  [ level ]  , appenderName1 , appenderName2 , …
 
 \#配置日志信息输出目的地Appender
 
-log4j.appender.appenderName = fully.qualified.name.of.appender.class 
+log4j.appender.appenderName = fully.qualified.name.of.appender.class （日志记录的类的全路径）
 
 　　log4j.appender.appenderName.option1 = value1 
 
