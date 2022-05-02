@@ -488,7 +488,7 @@ public class User {
 
 ​          比如，我们如何映射下面这个语句？        
 
-```
+```xml
 <!-- 非常复杂的语句 -->
 <select id="selectBlogDetails" resultMap="detailedBlogResultMap">
   select
@@ -527,7 +527,7 @@ public class User {
 
 ​          你可能想把它映射到一个智能的对象模型，这个对象表示了一篇博客，它由某位作者所写，有很多的博文，每篇博文有零或多条的评论和标签。          我们先来看看下面这个完整的例子，它是一个非常复杂的结果映射（假设作者，博客，博文，评论和标签都是类型别名）。          不用紧张，我们会一步一步地来说明。虽然它看起来令人望而生畏，但其实非常简单。        
 
-```
+```xml
 <!-- 非常复杂的结果映射 -->
 <resultMap id="detailedBlogResultMap" type="Blog">
   <constructor>
