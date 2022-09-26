@@ -6,7 +6,6 @@
 # 2、反射机制的相关类在哪个包下？
 
 java.lang.reflect.*;
-1
 
 # 3、反射机制相关的重要的类有哪些？
 
@@ -227,9 +226,6 @@ class ReflectTest07{
         // 两个要素：获取obj对象的no属性的值。
         System.out.println(noField.get(obj));
     }
-
-
-
 ```
 
 ## 7.2.3、set()可以访问私有属性嘛？

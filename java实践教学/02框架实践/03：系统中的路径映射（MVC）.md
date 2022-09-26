@@ -4,7 +4,7 @@
 
 [spring boot文档]: 
 
-首先，我们整个系统是基于spring boot进行系统配置的。而spring boot又是基于spring framework进行开发的。spring framework这个模块呢，主要包含了两大特性：**控制翻转（ioc  inverse of control）  依赖注入（DI  dependency injection ）**和**面向切面编程（AOP）**  oo
+首先，我们整个系统是基于spring boot进行系统配置的。而spring boot又是基于spring framework进行开发的。spring framework这个模块呢，主要包含了两大特性：**控制翻转（ioc  inverse of control）  依赖注入（DI  dependency injection ）**和**面向切面编程（AOP）**  
 
 
 

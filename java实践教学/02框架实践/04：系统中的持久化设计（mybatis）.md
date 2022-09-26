@@ -2,6 +2,10 @@
 
 
 
+mybatis 官方文档参见 https://mybatis.net.cn/
+
+
+
 ![image-20220321135046843](04：系统中的持久化设计（mybatis）.assets/image-20220321135046843.png)
 
 java中的类====数据库中的表
